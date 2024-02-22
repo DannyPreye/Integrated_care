@@ -10,6 +10,7 @@ import { BiLock } from "react-icons/bi";
 import Link from "next/link";
 import { Button, useToast } from "@chakra-ui/react";
 import { usePatientRegisterMutation } from "@/redux/services/auth.service";
+import { useRouter } from "next/navigation";
 
 // am using this component because of the useSearchParams hook
 // it will prevent next build from throwing an error during production build
@@ -18,10 +19,11 @@ import { usePatientRegisterMutation } from "@/redux/services/auth.service";
 const PatientForm: React.FC = () => {
     const toast = useToast();
     const [registerPatient] = usePatientRegisterMutation();
+    const router = useRouter();
 
     const validationSchema = Yup.object({
-        first_name: Yup.string().required("First name is required"),
-        last_name: Yup.string().required("Last name is required"),
+        firstName: Yup.string().required("First name is required"),
+        lastName: Yup.string().required("Last name is required"),
         email: Yup.string()
             .email("Invalid email address")
             .required("Email is required"),
@@ -46,8 +48,8 @@ const PatientForm: React.FC = () => {
 
     const formik = useFormik({
         initialValues: {
-            first_name: "",
-            last_name: "",
+            firstName: "",
+            lastName: "",
             email: "",
             password: "",
             agree: false,
@@ -71,6 +73,8 @@ const PatientForm: React.FC = () => {
                     duration: 5000,
                     isClosable: true,
                 });
+
+                router.push(`/auth/confirm-email?email=${values.email}`);
             }
         },
         validationSchema,
@@ -85,30 +89,29 @@ const PatientForm: React.FC = () => {
             <InputField
                 LeftIcon={<FaRegUser />}
                 onBlur={formik.handleBlur}
-                id='first_name'
+                id='firstName'
                 type='text'
                 label='First Name'
                 placeholder='John'
-                value={formik.values.first_name}
+                value={formik.values.firstName}
                 onChange={formik.handleChange}
-                errorMessage={formik.errors.first_name}
+                errorMessage={formik.errors.firstName}
                 isError={
-                    formik.touched.first_name &&
-                    Boolean(formik.errors.first_name)
+                    formik.touched.firstName && Boolean(formik.errors.firstName)
                 }
             />
             <InputField
                 LeftIcon={<FaRegUser />}
-                id='last_name'
+                id='lastName'
                 onBlur={formik.handleBlur}
                 type='text'
                 label='Last Name'
                 placeholder='Doe'
-                value={formik.values.last_name}
+                value={formik.values.lastName}
                 onChange={formik.handleChange}
-                errorMessage={formik.errors.last_name}
+                errorMessage={formik.errors.lastName}
                 isError={
-                    formik.touched.last_name && Boolean(formik.errors.last_name)
+                    formik.touched.lastName && Boolean(formik.errors.lastName)
                 }
             />
             <InputField

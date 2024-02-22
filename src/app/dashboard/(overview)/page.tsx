@@ -1,6 +1,7 @@
 import { serverSession } from "@/utils/auth";
 import React from "react";
 import PractitionerOverview from "./component/PractitionerOverview";
+import PatientOverview from "./component/PatientOverview";
 
 const page = async () => {
     const session = await serverSession();
@@ -9,7 +10,7 @@ const page = async () => {
         return <PractitionerOverview session={session} />;
     }
 
-    return <div>page</div>;
+    return <PatientOverview />;
 };
 
 export default page;
