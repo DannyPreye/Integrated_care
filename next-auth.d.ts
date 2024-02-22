@@ -11,6 +11,8 @@ interface IUser
     email: string,
     confirmed: boolean,
     token: string;
+    role: "patient" | "practitioner";
+    remember: string;
 
 }
 

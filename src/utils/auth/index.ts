@@ -34,9 +34,9 @@ export const authOptions: NextAuthOptions = {
                             password
                         });
 
-                        console.log(data);
 
-                        return { ...data };
+
+                        return { ...data, remember, role: userType };
 
                     }
 
@@ -83,7 +83,7 @@ export const authOptions: NextAuthOptions = {
 
     debug: true,
     pages: {
-        signIn: "/auth/signin",
+        signIn: "/auth/sign-in",
 
     },
 

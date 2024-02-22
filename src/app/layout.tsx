@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "@/providers";
 import "aos/dist/aos.css";
 import AosProvider from "@/providers/AosProvider";
+import "react-calendar/dist/Calendar.css";
 
 export const metadata: Metadata = {
     title: "Create Next App",
