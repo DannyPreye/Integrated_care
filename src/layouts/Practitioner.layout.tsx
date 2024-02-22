@@ -180,7 +180,7 @@ const PractitionerLayout: React.FC<Props> = ({ children, session }) => {
                     <p>Logout</p>
                 </div>
             </aside>
-            <section className='w-full flex-1'>
+            <section className='w-full lg:w-4/5'>
                 <nav className='w-full h-[65px] gap-3 bg-white flex justify-between items-center font-montserrat px-4 lg:px-7 drop-shadow-sm'>
                     <IconButton
                         aria-label='menu-button'

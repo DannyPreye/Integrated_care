@@ -17,7 +17,7 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import FadeLoader from "react-spinners/FadeLoader";
 import * as Yup from "yup";
 import { FaRegUser } from "react-icons/fa";
@@ -28,9 +28,10 @@ interface Props {
     refetch: any;
 }
 
-const AddPatientModal: React.FC<Props> = ({ isOpen, onClose }) => {
+const AddPatientModal: React.FC<Props> = ({ isOpen, onClose, refetch }) => {
     const [getPatient, { data, isLoading, isError }] =
         useGetPatientByIdMutation();
+    const [currentView, setCurrentView] = useState(0);
     const [
         addPatient,
         {
@@ -40,6 +41,7 @@ const AddPatientModal: React.FC<Props> = ({ isOpen, onClose }) => {
         },
     ] = useAddPatientMutation();
     const toast = useToast();
+    const router = useRouter();
 
     const AddPatientForm = () => {
         const validationSchema = Yup.object({
@@ -59,6 +61,8 @@ const AddPatientModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         duration: 9000,
                         isClosable: true,
                     });
+                } else {
+                    setCurrentView(1);
                 }
             },
             validationSchema,
@@ -109,6 +113,7 @@ const AddPatientModal: React.FC<Props> = ({ isOpen, onClose }) => {
     const PatientDetails = () => {
         const handleAddPatient = async () => {
             if (addPatientData) {
+                router.push(`/dashboard/patients/${addPatientData.patientId}`);
             } else {
                 const res: any = await addPatient(data?.patientId);
                 if (res?.error) {
@@ -119,6 +124,8 @@ const AddPatientModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         duration: 9000,
                         isClosable: true,
                     });
+                } else {
+                    refetch();
                 }
             }
         };
@@ -126,24 +133,28 @@ const AddPatientModal: React.FC<Props> = ({ isOpen, onClose }) => {
         return (
             <div className='flex flex-col gap-4 items-center py-8'>
                 <h2 className='font-montserrat text-[24px] leading-[32px] font-[600] text-center'>
-                    Add Patient
+                    Patient Found
                 </h2>
                 <p className='font-montserrat text-[16px] leading-[24px] font-[400] text-center'>
                     {data
                         ? "Add new patient to your patient list by clicking on the button below"
                         : " Add a new patient by entering the patient ID below"}
                 </p>
-                <div className='max-w-[478px] h-[56px] bg-[#F7F9FB] rounded-[8px] flex items-center justify-between px-[16px]'>
+                <div className='max-w-[478px] h-[56px] border gap-[16px] rounded-[8px] flex items-center justify-center px-[16px]'>
                     <Avatar
                         className='h-10 w-10'
                         name={data?.firstName + " " + data?.lastName}
                     />
+                    <span className='flex-shrink-0'>
+                        {data?.firstName + " " + data?.lastName}
+                    </span>
                     <span>{data?.patientId}</span>
                     <span>{data?.email}</span>
                 </div>
                 <Button
+                    onClick={handleAddPatient}
                     isLoading={addPatientLoading}
-                    className='w-full bg-primary disabled:bg-[#B6E5FF] h-[40px] rounded-[8px] max-w-[140px]'
+                    className='w-full bg-primary text-white disabled:bg-[#B6E5FF] h-[40px] rounded-[8px] max-w-[140px]'
                 >
                     {addPatientData ? "View Profile" : "Add Patient"}
                 </Button>
@@ -152,10 +163,30 @@ const AddPatientModal: React.FC<Props> = ({ isOpen, onClose }) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={isLoading ? () => {} : onClose}>
+        <Modal
+            size='xl'
+            isOpen={isOpen}
+            onClose={
+                isLoading
+                    ? () => {}
+                    : () => {
+                          setCurrentView(0);
+                          onClose();
+                      }
+            }
+        >
             <ModalOverlay />
             <ModalContent>
-                <ModalCloseButton />
+                <ModalCloseButton
+                    onClick={
+                        isLoading
+                            ? () => {}
+                            : () => {
+                                  setCurrentView(0);
+                                  onClose();
+                              }
+                    }
+                />
                 <ModalBody>
                     {isLoading ? (
                         <div className='flex flex-col gap-4 items-center py-8'>
@@ -169,7 +200,10 @@ const AddPatientModal: React.FC<Props> = ({ isOpen, onClose }) => {
                             <FadeLoader color='#00A6FB' />
                         </div>
                     ) : (
-                        <AddPatientForm />
+                        [
+                            <AddPatientForm key='add-patient-form' />,
+                            <PatientDetails key='patient-details' />,
+                        ][currentView]
                     )}
                 </ModalBody>
             </ModalContent>
