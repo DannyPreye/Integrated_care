@@ -25,7 +25,7 @@ const AuthLayout: React.FC<Props> = ({ children, Switch }) => {
                     information.
                 </p>
             </aside>
-            <aside className='bg-white w-[680px] min-h-screen flex flex-col justify-center items-center gap-16 text-center px-16 py-8'>
+            <aside className='bg-white mx-auto w-[680px] min-h-screen flex flex-col justify-center items-center gap-16 text-center px-16 py-8'>
                 <div>
                     <p className='text-[32px] font-semibold text-black mb-4'>
                         Integrated<span className='text-primary'>Care</span>
