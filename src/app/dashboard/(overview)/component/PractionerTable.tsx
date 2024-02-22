@@ -34,12 +34,12 @@ const PractionerTable: React.FC<PractionerTableProps> = ({ patients }) => {
                 <Thead className='font-lato text-base'>
                     <Tr className='bg-[#EFF9FF]'>
                         <Th></Th>
-                        <Th className='capitalize text-centerr'>Patient ID</Th>
-                        <Th className='capitalize text-centerr'>First Name</Th>
-                        <Th className='capitalize text-centerr'>Last Name</Th>
-                        <Th className='capitalize text-centerr'>Email</Th>
-                        <Th className='capitalize text-centerr'>Last Visit</Th>
-                        <Th className='capitalize text-centerr'></Th>
+                        <Th className='capitalize text-center'>Patient ID</Th>
+                        <Th className='capitalize text-center'>First Name</Th>
+                        <Th className='capitalize text-center'>Last Name</Th>
+                        <Th className='capitalize text-center'>Email</Th>
+                        <Th className='capitalize text-center'>Last Visit</Th>
+                        <Th className='capitalize text-center'></Th>
                     </Tr>
                 </Thead>
                 <Tbody className='font-lato text-base'>
