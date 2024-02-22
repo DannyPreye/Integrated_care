@@ -31,14 +31,15 @@ const PractionerTable: React.FC<PractionerTableProps> = ({ patients }) => {
     return (
         <TableContainer>
             <Table variant={"simple"}>
-                <Thead>
+                <Thead className='font-lato text-base'>
                     <Tr className='bg-[#EFF9FF]'>
                         <Th></Th>
-                        <Th>Patient ID</Th>
-                        <Th>First Name</Th>
-                        <Th>Last Name</Th>
-                        <Th>Email</Th>
-                        <Th>Last Visit</Th>
+                        <Th className='capitalize'>Patient ID</Th>
+                        <Th className='capitalize'>First Name</Th>
+                        <Th className='capitalize'>Last Name</Th>
+                        <Th className='capitalize'>Email</Th>
+                        <Th className='capitalize'>Last Visit</Th>
+                        <Th className='capitalize'></Th>
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -58,7 +59,7 @@ const PractionerTable: React.FC<PractionerTableProps> = ({ patients }) => {
                                         as={IconButton}
                                         aria-label={"Options"}
                                         variant={"ghost"}
-                                        icon={<AiOutlineMore />}
+                                        icon={<AiOutlineMore size={24} />}
                                     />
                                     <MenuList>
                                         <MenuItem onClick={() => router}>
