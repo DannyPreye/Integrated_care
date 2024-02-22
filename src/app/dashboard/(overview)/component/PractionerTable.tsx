@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
     Table,
@@ -11,20 +12,27 @@ import {
     TableContainer,
     Checkbox,
     Skeleton,
+    MenuButton,
+    IconButton,
+    Menu,
+    MenuList,
+    MenuItem,
 } from "@chakra-ui/react";
 import { IPatient } from "@/app/types/Ipage";
 import moment from "moment";
-
+import { AiOutlineMore } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 interface PractionerTableProps {
     patients: IPatient[];
 }
 
 const PractionerTable: React.FC<PractionerTableProps> = ({ patients }) => {
+    const router = useRouter();
     return (
         <TableContainer>
             <Table variant={"simple"}>
                 <Thead>
-                    <Tr>
+                    <Tr className='bg-[#EFF9FF]'>
                         <Th></Th>
                         <Th>Patient ID</Th>
                         <Th>First Name</Th>
@@ -39,11 +47,26 @@ const PractionerTable: React.FC<PractionerTableProps> = ({ patients }) => {
                             <Td>
                                 <Checkbox />
                             </Td>
-                            <Td>{patient?._id}</Td>
+                            <Td>{patient?.patientId}</Td>
                             <Td>{patient?.firstName}</Td>
                             <Td>{patient?.lastName}</Td>
                             <Td>{patient?.email}</Td>
                             <Td>{moment().format("DD MMM YYYY")}</Td>
+                            <Td>
+                                <Menu>
+                                    <MenuButton
+                                        as={IconButton}
+                                        aria-label={"Options"}
+                                        variant={"ghost"}
+                                        icon={<AiOutlineMore />}
+                                    />
+                                    <MenuList>
+                                        <MenuItem onClick={() => router}>
+                                            View
+                                        </MenuItem>
+                                    </MenuList>
+                                </Menu>
+                            </Td>
                         </Tr>
                     ))}
                 </Tbody>

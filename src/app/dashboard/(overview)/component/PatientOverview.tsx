@@ -39,7 +39,7 @@ const PatientOverview = () => {
     return (
         <div className='flex flex-col lg:gap-10 gap-4'>
             {isLoading ? (
-                <div className='flex justify-between gap-4 items-center'>
+                <div className='flex justify-between lg:flex-nowrap flex-wrap gap-4 items-center'>
                     {[...Array(4)].map((i) => (
                         <Skeleton
                             key={i}
