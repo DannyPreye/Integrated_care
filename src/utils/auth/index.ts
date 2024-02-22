@@ -12,17 +12,33 @@ export const authOptions: NextAuthOptions = {
             },
             id: "credentials",
             // @ts-ignore
-            authorize: async (credentials: { email: string, password: string, remember: boolean; }, req) =>
+            authorize: async (credentials: { email: string, password: string, remember: boolean; userType: "patient" | "practitioner"; }, req) =>
             {
-                const { email, password, remember } = credentials;
+                const { email, password, remember, userType } = credentials;
+
 
                 try {
-                    const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/signin`, {
-                        email,
-                        password
-                    });
+                    if (userType === "patient") {
+                        const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/patient/login`, {
+                            email,
+                            password
+                        });
 
-                    return { ...data };
+
+
+
+                        return { ...data };
+                    } else {
+                        const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/practitioner/login`, {
+                            email,
+                            password
+                        });
+
+                        console.log(data);
+
+                        return { ...data };
+
+                    }
 
                 } catch (error) {
                     if (axios.isAxiosError(error)) {
@@ -43,16 +59,23 @@ export const authOptions: NextAuthOptions = {
         jwt: async ({ token, user }) =>
         {
             if (user) {
-                token.user = user;
+
+                // @ts-ignore
+                const { token: jwt, ...rest } = user;
+                // @ts-ignore
+                token.user = rest;
+                token.token = jwt;
+
+
             }
 
             return token;
         },
         session: async ({ session, token }) =>
         {
-
             // @ts-ignore
             session.user = token.user;
+            session.token = token?.token;
             return session;
         }
     },

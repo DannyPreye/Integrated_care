@@ -16,7 +16,7 @@ export const authAPI = createApi({
         }),
         practionerRegister: builder.mutation({
             query: (body) => ({
-                url: "/practioner",
+                url: "/practitioner",
                 method: "POST",
                 body
             })

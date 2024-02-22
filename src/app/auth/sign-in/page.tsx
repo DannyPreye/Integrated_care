@@ -4,9 +4,11 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import InputField from "@/sharedComponents/InputField";
+import { signIn } from "next-auth/react";
 
 import Link from "next/link";
-import { Button } from "@chakra-ui/react";
+import { Button, useToast } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 const Page: React.FC = () => {
     const validationSchema = Yup.object({
@@ -15,18 +17,35 @@ const Page: React.FC = () => {
             .required("Email is required"),
         password: Yup.string().required("Password is required"),
     });
-    const [userType, setUserType] = React.useState("patient");
+    const toast = useToast();
+    const router = useRouter();
 
     const formik = useFormik({
         initialValues: {
             email: "",
             password: "",
             remember: false,
+            userType: "patient",
         },
         validationSchema,
-        onSubmit: (values) => {
-            console.log(values);
+        onSubmit: async (values) => {
+            await signIn("credentials", { redirect: false, ...values }).then(
+                (res) => {
+                    if (res?.error) {
+                        toast({
+                            description: res?.error,
+                            status: "error",
+                            isClosable: true,
+                        });
+                    }
+                    if (res?.ok) {
+                        sessionStorage.setItem("isLogin", JSON.stringify(true));
+                        return router.push("/dashboard");
+                    }
+                }
+            );
         },
+        enableReinitialize: true,
     });
 
     return (
@@ -35,21 +54,25 @@ const Page: React.FC = () => {
                 <section className='w-[200px] h-[35px] bg-white mx-auto mt-1 rounded-full shadow-inner shadow-primary/20 flex justify-between items-center overflow-hidden'>
                     <button
                         className={`px-3 py-4 text-lato font-semibold outline-none transition-all duration-300 ${
-                            userType === "patient"
+                            formik.values.userType === "patient"
                                 ? "bg-primary text-white"
                                 : "bg-transparent text-black"
                         }`}
-                        onClick={() => setUserType("patient")}
+                        onClick={() =>
+                            formik.setFieldValue("userType", "patient")
+                        }
                     >
                         Patient
                     </button>
                     <button
                         className={`px-3 py-4 text-lato font-semibold outline-none transition-all duration-300 ${
-                            userType === "practitioner"
+                            formik.values.userType === "practitioner"
                                 ? "bg-primary text-white"
                                 : "bg-transparent text-black"
                         }`}
-                        onClick={() => setUserType("practitioner")}
+                        onClick={() =>
+                            formik.setFieldValue("userType", "practitioner")
+                        }
                     >
                         Practitioner
                     </button>

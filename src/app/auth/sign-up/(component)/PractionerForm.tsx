@@ -10,18 +10,20 @@ import { BiLock } from "react-icons/bi";
 import Link from "next/link";
 import { Button, useToast } from "@chakra-ui/react";
 import { usePractionerRegisterMutation } from "@/redux/services/auth.service";
+import { useRouter } from "next/navigation";
 const PractionerForm = () => {
     const toast = useToast();
 
     const [registerPractioner] = usePractionerRegisterMutation();
-
     const validationSchema = Yup.object({
-        first_name: Yup.string().required("First name is required"),
-        last_name: Yup.string().required("Last name is required"),
-        reg_number: Yup.string().required("Registration number is required"),
+        firstName: Yup.string().required("First name is required"),
+        lastName: Yup.string().required("Last name is required"),
+        registrationNumber: Yup.string().required(
+            "Registration number is required"
+        ),
         specialty: Yup.string().required("Specialty is required"),
-        work_address: Yup.string().required("Work address is required"),
-        work_phone: Yup.string().required("Work phone is required"),
+        workAddress: Yup.string().required("Work address is required"),
+        workPhoneNumber: Yup.string().required("Work phone is required"),
         email: Yup.string()
             .email("Invalid email address")
             .required("Email is required"),
@@ -43,14 +45,16 @@ const PractionerForm = () => {
             .required("Password is required"),
     });
 
+    const router = useRouter();
+
     const formik = useFormik({
         initialValues: {
-            first_name: "",
-            last_name: "",
-            reg_number: "",
+            firstName: "",
+            lastName: "",
+            registrationNumber: "",
             specialty: "",
-            work_address: "",
-            work_phone: "",
+            workAddress: "",
+            workPhoneNumber: "",
             email: "",
             password: "",
             agree: false,
@@ -75,9 +79,13 @@ const PractionerForm = () => {
                     duration: 5000,
                     isClosable: true,
                 });
+
+                router.push("/auth/confirm-email");
             }
         },
     });
+
+    console.log(formik.errors);
 
     return (
         <form
@@ -87,36 +95,35 @@ const PractionerForm = () => {
             <InputField
                 LeftIcon={<FaRegUser />}
                 onBlur={formik.handleBlur}
-                id='first_name'
+                id='firstName'
                 type='text'
                 label='First Name'
                 placeholder='John'
-                value={formik.values.first_name}
+                value={formik.values.firstName}
                 onChange={formik.handleChange}
-                errorMessage={formik.errors.first_name}
+                errorMessage={formik.errors.firstName}
                 isError={
-                    formik.touched.first_name &&
-                    Boolean(formik.errors.first_name)
+                    formik.touched.firstName && Boolean(formik.errors.firstName)
                 }
             />
             <InputField
                 LeftIcon={<FaRegUser />}
-                id='last_name'
+                id='lastName'
                 onBlur={formik.handleBlur}
                 type='text'
                 label='Last Name'
                 placeholder='Doe'
-                value={formik.values.last_name}
+                value={formik.values.lastName}
                 onChange={formik.handleChange}
-                errorMessage={formik.errors.last_name}
+                errorMessage={formik.errors.lastName}
                 isError={
-                    formik.touched.last_name && Boolean(formik.errors.last_name)
+                    formik.touched.lastName && Boolean(formik.errors.lastName)
                 }
             />
             <InputField
                 LeftIcon={<MdOutlineEmail />}
                 className='col-span-2'
-                id='last_name'
+                id='email'
                 onBlur={formik.handleBlur}
                 type='email'
                 label='Email'
@@ -142,17 +149,17 @@ const PractionerForm = () => {
                 }
             />
             <InputField
-                id='reg_number'
+                id='registrationNumber'
                 onBlur={formik.handleBlur}
-                type='reg_number'
+                type='registrationNumber'
                 label='Registration Number'
                 placeholder='FE12345678'
-                value={formik.values.reg_number}
+                value={formik.values.registrationNumber}
                 onChange={formik.handleChange}
-                errorMessage={formik.errors.reg_number}
+                errorMessage={formik.errors.registrationNumber}
                 isError={
-                    formik.touched.reg_number &&
-                    Boolean(formik.errors.reg_number)
+                    formik.touched.registrationNumber &&
+                    Boolean(formik.errors.registrationNumber)
                 }
             />
             <InputField
@@ -169,33 +176,33 @@ const PractionerForm = () => {
                 }
             />
             <InputField
-                id='work_address'
+                id='workAddress'
                 className='col-span-2'
                 onBlur={formik.handleBlur}
                 type='text'
                 label='Work address'
                 placeholder='19, Helbert Macualay Way, Obafemi Awolowo Road, Abuja'
-                value={formik.values.work_address}
+                value={formik.values.workAddress}
                 onChange={formik.handleChange}
-                errorMessage={formik.errors.work_address}
+                errorMessage={formik.errors.workAddress}
                 isError={
-                    formik.touched.work_address &&
-                    Boolean(formik.errors.work_address)
+                    formik.touched.workAddress &&
+                    Boolean(formik.errors.workAddress)
                 }
             />
             <InputField
-                id='work_phone'
+                id='workPhoneNumber'
                 className='col-span-2'
                 onBlur={formik.handleBlur}
                 type='text'
                 label='Work Phone'
                 placeholder='+2348123456789'
-                value={formik.values.work_phone}
+                value={formik.values.workPhoneNumber}
                 onChange={formik.handleChange}
-                errorMessage={formik.errors.work_phone}
+                errorMessage={formik.errors.workPhoneNumber}
                 isError={
-                    formik.touched.work_phone &&
-                    Boolean(formik.errors.work_phone)
+                    formik.touched.workPhoneNumber &&
+                    Boolean(formik.errors.workPhoneNumber)
                 }
             />
             <div className='flex items-center col-span-2 justify-start w-full gap-3 -mt-2'>
