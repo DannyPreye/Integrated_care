@@ -13,7 +13,7 @@ const leftLinks = [
     },
     {
         title: "Test Results",
-        link: "/dashboard/my-records/test",
+        link: "/dashboard/my-records/test-results",
     },
     {
         title: "Diagnosis",

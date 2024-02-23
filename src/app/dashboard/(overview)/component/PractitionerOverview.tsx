@@ -68,22 +68,7 @@ const PractitionerOverview: React.FC<Props> = ({ session }) => {
                                         patients={data?.patients}
                                     />
                                 ) : (
-                                    <div className='flex flex-col items-center justify-center gap-2'>
-                                        <Image
-                                            src={"/assets/folder.webp"}
-                                            alt='folder'
-                                            width={140}
-                                            height={140}
-                                        />
-                                        <p className='text-lg font-semibold font-lato'>
-                                            You don&apos;t have any patient yet.
-                                        </p>
-                                        <p className='font-lato text-base text-[#515151]'>
-                                            Start by adding a patient or use the
-                                            search button above to find a
-                                            patient
-                                        </p>
-                                    </div>
+                                    <NoDataTable />
                                 )}
                             </>
                         )}
@@ -112,3 +97,23 @@ const PractitionerOverview: React.FC<Props> = ({ session }) => {
 };
 
 export default PractitionerOverview;
+
+export const NoDataTable = () => {
+    return (
+        <div className='flex flex-col items-center text-center justify-center gap-2'>
+            <Image
+                src={"/assets/folder.webp"}
+                alt='folder'
+                width={140}
+                height={140}
+            />
+            <p className='text-lg font-semibold  font-lato'>
+                You don&apos;t have any patient yet.
+            </p>
+            <p className='font-lato  text-base text-[#515151]'>
+                Start by adding a patient or use the search button above to find
+                a patient
+            </p>
+        </div>
+    );
+};
