@@ -91,24 +91,24 @@ const PatientOverview = () => {
                     <PatientCard
                         icon={<CiDroplet size={30} />}
                         title='Blood Group'
-                        value={"O+"}
+                        value={data?.bloodGroup}
                     />
                     <PatientCard
                         icon={<BiTask size={30} />}
-                        title='Outstanding Task'
-                        value={"3"}
+                        title='Outstanding Requests'
+                        value={tasks?.length}
                     />
                     <PatientCard
                         icon={<MdOutlineHeight size={30} />}
                         title='Height'
-                        value={"180cm"}
+                        value={data?.height}
                     />
                 </div>
             )}
 
             <div className='flex flex-col gap-4 lg:mt-[70px] mt-4'>
                 <h2 className='text-[#002549] text-[18px] font-montserrat leading-[24px] font-semibold'>
-                    Oustanding Task
+                    Oustanding Requests
                 </h2>
 
                 <div className='w-full font-lato'>
@@ -172,7 +172,10 @@ const PatientOverview = () => {
                                     </>
                                 ) : (
                                     <div className='flex justify-center items-center h-[50%]'>
-                                        <NoDataTable />
+                                        <NoDataTable
+                                            heading='You don’t have any  requests yet.'
+                                            paragraph='All your requests will appear here'
+                                        />
                                     </div>
                                 )}
                             </Table>

@@ -4,9 +4,10 @@ import React from "react";
 
 interface Props extends IPage {
     Switch?: React.ReactNode;
+    paragraph?:string
 }
 
-const AuthLayout: React.FC<Props> = ({ children, Switch }) => {
+const AuthLayout: React.FC<Props> = ({ children, Switch, paragraph }) => {
     return (
         <section className='flex items-start justify-start w-full font-montserrat'>
             <aside className='bg-[#002549] w-[680px] h-screen hidden lg:flex flex-col justify-center items-center text-center sticky top-0 left-0'>
@@ -31,7 +32,7 @@ const AuthLayout: React.FC<Props> = ({ children, Switch }) => {
                         Integrated<span className='text-primary'>Care</span>
                     </p>
                     <p className='mb-2 text-base font-medium text-black'>
-                        Welcome Back! Log in to continue..
+                        {paragraph || "Welcome Back! Log in to continue.."}
                     </p>
                     {Switch}
                 </div>

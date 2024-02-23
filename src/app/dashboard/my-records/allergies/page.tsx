@@ -145,7 +145,10 @@ const Page: React.FC = () => {
                     {isLoading && <TableLoading numberOfColumns={5} />}
                     {allergies?.length === 0 && !isLoading && (
                         <div className='flex justify-center items-center h-[50%]'>
-                            <NoDataTable />
+                            <NoDataTable
+                                heading='No Allergies'
+                                paragraph='All allergies will appear here'
+                            />
                         </div>
                     )}
                 </div>

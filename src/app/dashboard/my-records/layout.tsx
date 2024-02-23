@@ -4,7 +4,7 @@ import React from "react";
 
 const leftLinks = [
     {
-        title: "Tasks",
+        title: "Requests",
         link: "/dashboard/my-records",
     },
     {
