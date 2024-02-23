@@ -52,6 +52,13 @@ export const practitionerApi = createApi({
 
             }),
         }),
+        addPatientAllergy: builder.mutation({
+            query: (payload) => ({
+                url: `/addAllergy/${payload.patientId}`,
+                method: "POST",
+                body: payload.body
+            })
+        }),
         addPatientEncounter: builder.mutation({
             query: (payload) => ({
                 url: `/addEncounter/${payload.patientId}`,
@@ -80,4 +87,6 @@ export const { useGetPractionerQuery,
     useAddPatientMutation,
     useGetColleagueMutation,
     useGetPatientByIdMutation,
-    useGetPatientHistoryQuery } = practitionerApi;
+    useGetPatientHistoryQuery,
+    useAddPatientAllergyMutation
+} = practitionerApi;
