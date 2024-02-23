@@ -5,6 +5,7 @@ import moment from "moment";
 import React from "react";
 import Allergies from "./(components)/Allergies";
 import Diagnosis from "./(components)/Diagnosis";
+import Tasks from "./(components)/Tasks";
 
 interface Props {
     params: any;
@@ -26,7 +27,7 @@ const page: React.FC<Props> = async ({ params }) => {
     console.log(data);
 
     return (
-        <div className='flex gap-4'>
+        <div className='flex gap-4 w-full'>
             <Card rounded={"8px"} className='w-full  shadow-md lg:w-2/5'>
                 <CardBody>
                     <Stack px={0} divider={<Divider />} spacing={4}>
@@ -76,7 +77,13 @@ const page: React.FC<Props> = async ({ params }) => {
                 </CardBody>
             </Card>
 
-            <div className='w-full lg:w-3/5 flex flex-col '></div>
+            <div className='w-full lg:w-3/5 flex flex-col '>
+                <Card rounded={"8px"} className='w-full  shadow-md '>
+                    <CardBody>
+                        <Tasks patientId={id} />
+                    </CardBody>
+                </Card>
+            </div>
         </div>
     );
 };

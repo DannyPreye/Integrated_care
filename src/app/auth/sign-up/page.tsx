@@ -16,7 +16,7 @@ const page: React.FC<IProps> = ({ searchParams }) => {
     //     redirect("/auth/selection");
 
     return (
-        <AuthLayout>
+        <AuthLayout paragraph='Create your account'>
             {type === "practioner" ? <PractionerForm /> : <PatientForm />}
         </AuthLayout>
     );

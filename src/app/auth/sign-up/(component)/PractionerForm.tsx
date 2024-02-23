@@ -80,12 +80,10 @@ const PractionerForm = () => {
                     isClosable: true,
                 });
 
-                router.push("/auth/confirm-email");
+                router.push(`/auth/confirm-email?email=${values.email}`);
             }
         },
     });
-
-    console.log(formik.errors);
 
     return (
         <form
@@ -235,7 +233,7 @@ const PractionerForm = () => {
                     type='submit'
                     className='w-full py-3 text-base text-white rounded-lg bg-primary'
                 >
-                    Sign In
+                    Sign Up
                 </Button>
                 <p className='-mt-3 text-base text-[#515151] font-normal text-center'>
                     Already have an account?{" "}

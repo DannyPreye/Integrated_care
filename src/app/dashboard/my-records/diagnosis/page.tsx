@@ -125,7 +125,10 @@ const Page: React.FC = () => {
                     {isLoading && <TableLoading numberOfColumns={3} />}
                     {diagnosis?.length === 0 && !isLoading && (
                         <div className='flex justify-center items-center h-[50%]'>
-                            <NoDataTable />
+                            <NoDataTable
+                                heading='No Diagnosis yet.'
+                                paragraph='All diagnosis will appear here'
+                            />
                         </div>
                     )}
                 </div>
