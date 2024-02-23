@@ -52,6 +52,13 @@ export const practitionerApi = createApi({
 
             }),
         }),
+        addPatientEncounter: builder.mutation({
+            query: (payload) => ({
+                url: `/addEncounter/${payload.patientId}`,
+                method: "POST",
+                body: payload.body
+            }),
+        }),
         getColleague: builder.mutation({
             query: (email) => ({
                 url: `/getPractitioner?email=${email}`,

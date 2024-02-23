@@ -78,13 +78,17 @@ const PractionerTable: React.FC<PractionerTableProps> = ({ patients }) => {
 
 export default PractionerTable;
 
-export const TableLoading = () => {
+export const TableLoading = ({
+    numberOfColumns = 5,
+}: {
+    numberOfColumns?: number;
+}) => {
     return (
         <TableContainer>
             <Table variant={"simple"}>
                 <Thead>
                     <Tr>
-                        {[...Array(5)].map(() => (
+                        {[...Array(numberOfColumns)].map(() => (
                             <Th key={Math.random()}>
                                 <Skeleton height='10px' />
                             </Th>
@@ -94,7 +98,7 @@ export const TableLoading = () => {
                 <Tbody>
                     {[...Array(5)].map(() => (
                         <Tr key={Math.random()}>
-                            {[...Array(5)].map(() => (
+                            {[...Array(numberOfColumns)].map(() => (
                                 <Td key={Math.random()}>
                                     <Skeleton height='10px' />
                                 </Td>

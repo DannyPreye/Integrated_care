@@ -30,8 +30,14 @@ export const patientApi = createApi({
                 method: "PATCH",
                 body: data,
             }),
-        })
+        }),
+        getMedicalHistory: builder.query({
+            query: () => ({
+                url: "/medicalHistory",
+                method: "GET",
+            }),
+        }),
     })
 });
 
-export const { useGetPatientProfileQuery, useUpdatePatientProfileMutation } = patientApi;
+export const { useGetPatientProfileQuery, useUpdatePatientProfileMutation, useGetMedicalHistoryQuery } = patientApi;
