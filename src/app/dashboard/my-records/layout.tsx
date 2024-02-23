@@ -11,10 +11,10 @@ const leftLinks = [
         title: "Medication",
         link: "/dashboard/my-records/medication",
     },
-    {
-        title: "Test Results",
-        link: "/dashboard/my-records/test-results",
-    },
+    // {
+    //     title: "Test Results",
+    //     link: "/dashboard/my-records/test-results",
+    // },
     {
         title: "Diagnosis",
         link: "/dashboard/my-records/diagnosis",

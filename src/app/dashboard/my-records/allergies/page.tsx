@@ -18,19 +18,15 @@ import { IoFilter } from "react-icons/io5";
 import { TableLoading } from "../../(overview)/component/PractionerTable";
 import { NoDataTable } from "../../(overview)/component/PractitionerOverview";
 
-// This is meant to be for test results not medications
-// no data for test results that am using the medication query
-// for now
-
 const Page: React.FC = () => {
     const { data, isLoading, isError } = useGetMedicalHistoryQuery(null);
-    const [medications, setMedications] = useState<any>([]);
+    const [allergies, setAllergies] = useState<any>([]);
 
     useEffect(() => {
         if (!isLoading && !isError && data) {
             const filterTasks = data
                 .map((item: any) =>
-                    item.medication?.map((med: any) => {
+                    item.allergies?.map((med: any) => {
                         return {
                             ...med,
                             practitioner: {
@@ -41,11 +37,11 @@ const Page: React.FC = () => {
                     })
                 )
                 ?.flat();
-            setMedications(filterTasks);
+            setAllergies(filterTasks);
         }
     }, [isLoading, data]);
 
-    console.log(medications);
+    console.log(allergies);
 
     console.log(data);
 
@@ -67,41 +63,65 @@ const Page: React.FC = () => {
                                 <Tr className='bg-primary '>
                                     <Th></Th>
                                     <Th className='text-white text-center capitalize'>
-                                        Medication Name
+                                        Date
                                     </Th>
                                     <Th className='text-white text-center capitalize'>
-                                        Dosage
+                                        Allergen
                                     </Th>
                                     <Th className='text-white text-center capitalize'>
-                                        Frequency
+                                        Reaction
+                                    </Th>
+                                    <Th className='text-white text-center capitalize'>
+                                        Severity
                                     </Th>
                                     <Th className='text-white text-center capitalize'>
                                         Prescribed By
                                     </Th>
-                                    {/* <Th className='text-white text-center capitalize'>
-                                        Status
-                                    </Th> */}
                                 </Tr>
                             </Thead>
                             {!isLoading &&
                                 !isError &&
-                                medications?.length > 0 && (
+                                allergies?.length > 0 && (
                                     <Tbody className='font-lato text-base'>
-                                        {medications?.map(
+                                        {allergies?.map(
                                             (medication: any, index: any) => (
                                                 <Tr key={index}>
                                                     <Td className='text-center'>
                                                         <Checkbox />
                                                     </Td>
                                                     <Td className='text-center'>
-                                                        {medication?.drugName}
+                                                        {moment(
+                                                            medication?.createdAt
+                                                        ).format("DD/MM/YYYY")}
                                                     </Td>
                                                     <Td className='text-center'>
-                                                        {medication?.dosage}
+                                                        {medication?.allergen}
                                                     </Td>
-                                                    <Th>
-                                                        {medication?.frequency}
-                                                    </Th>
+                                                    <Td>
+                                                        {medication?.reaction}
+                                                    </Td>
+                                                    <Td>
+                                                        <Badge
+                                                            variant='subtle'
+                                                            textTransform={
+                                                                "lowercase"
+                                                            }
+                                                            className='lower rounded-[8px] p-2'
+                                                            colorScheme={
+                                                                medication.severity ==
+                                                                "severe"
+                                                                    ? "red"
+                                                                    : medication.severity ==
+                                                                      "moderate"
+                                                                    ? "yellow"
+                                                                    : "green"
+                                                            }
+                                                        >
+                                                            {
+                                                                medication?.severity
+                                                            }
+                                                        </Badge>
+                                                    </Td>
                                                     <Td className='text-center'>
                                                         {
                                                             medication
@@ -122,8 +142,8 @@ const Page: React.FC = () => {
                         </Table>
                     </TableContainer>
 
-                    {isLoading && <TableLoading numberOfColumns={4} />}
-                    {medications?.length === 0 && !isLoading && (
+                    {isLoading && <TableLoading numberOfColumns={5} />}
+                    {allergies?.length === 0 && !isLoading && (
                         <div className='flex justify-center items-center h-[50%]'>
                             <NoDataTable />
                         </div>

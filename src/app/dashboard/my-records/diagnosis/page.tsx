@@ -18,19 +18,15 @@ import { IoFilter } from "react-icons/io5";
 import { TableLoading } from "../../(overview)/component/PractionerTable";
 import { NoDataTable } from "../../(overview)/component/PractitionerOverview";
 
-// This is meant to be for test results not medications
-// no data for test results that am using the medication query
-// for now
-
 const Page: React.FC = () => {
     const { data, isLoading, isError } = useGetMedicalHistoryQuery(null);
-    const [medications, setMedications] = useState<any>([]);
+    const [diagnosis, setDiagnosis] = useState<any>([]);
 
     useEffect(() => {
         if (!isLoading && !isError && data) {
             const filterTasks = data
                 .map((item: any) =>
-                    item.medication?.map((med: any) => {
+                    item?.diagnosis?.map((med: any) => {
                         return {
                             ...med,
                             practitioner: {
@@ -41,11 +37,11 @@ const Page: React.FC = () => {
                     })
                 )
                 ?.flat();
-            setMedications(filterTasks);
+            setDiagnosis(filterTasks);
         }
     }, [isLoading, data]);
 
-    console.log(medications);
+    console.log(diagnosis);
 
     console.log(data);
 
@@ -67,16 +63,16 @@ const Page: React.FC = () => {
                                 <Tr className='bg-primary '>
                                     <Th></Th>
                                     <Th className='text-white text-center capitalize'>
-                                        Medication Name
+                                        Date
                                     </Th>
-                                    <Th className='text-white text-center capitalize'>
+                                    {/* <Th className='text-white text-center capitalize'>
                                         Dosage
+                                    </Th> */}
+                                    <Th className='text-white text-center capitalize'>
+                                        Description of Diagnosis
                                     </Th>
                                     <Th className='text-white text-center capitalize'>
-                                        Frequency
-                                    </Th>
-                                    <Th className='text-white text-center capitalize'>
-                                        Prescribed By
+                                        Health Practitioner
                                     </Th>
                                     {/* <Th className='text-white text-center capitalize'>
                                         Status
@@ -85,23 +81,27 @@ const Page: React.FC = () => {
                             </Thead>
                             {!isLoading &&
                                 !isError &&
-                                medications?.length > 0 && (
+                                diagnosis?.length > 0 && (
                                     <Tbody className='font-lato text-base'>
-                                        {medications?.map(
+                                        {diagnosis?.map(
                                             (medication: any, index: any) => (
                                                 <Tr key={index}>
                                                     <Td className='text-center'>
                                                         <Checkbox />
                                                     </Td>
                                                     <Td className='text-center'>
-                                                        {medication?.drugName}
+                                                        {moment(
+                                                            medication?.createdAt
+                                                        ).format("DD/MM/YYYY")}
                                                     </Td>
-                                                    <Td className='text-center'>
+                                                    {/* <Td className='text-center'>
                                                         {medication?.dosage}
+                                                    </Td> */}
+                                                    <Td>
+                                                        {
+                                                            medication?.description
+                                                        }
                                                     </Td>
-                                                    <Th>
-                                                        {medication?.frequency}
-                                                    </Th>
                                                     <Td className='text-center'>
                                                         {
                                                             medication
@@ -122,8 +122,8 @@ const Page: React.FC = () => {
                         </Table>
                     </TableContainer>
 
-                    {isLoading && <TableLoading numberOfColumns={4} />}
-                    {medications?.length === 0 && !isLoading && (
+                    {isLoading && <TableLoading numberOfColumns={3} />}
+                    {diagnosis?.length === 0 && !isLoading && (
                         <div className='flex justify-center items-center h-[50%]'>
                             <NoDataTable />
                         </div>

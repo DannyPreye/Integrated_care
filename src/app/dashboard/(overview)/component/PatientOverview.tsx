@@ -1,5 +1,8 @@
 "use client";
-import { useGetPatientProfileQuery } from "@/redux/services/patient.service";
+import {
+    useGetMedicalHistoryQuery,
+    useGetPatientProfileQuery,
+} from "@/redux/services/patient.service";
 import {
     Checkbox,
     Skeleton,
@@ -11,12 +14,15 @@ import {
     Thead,
     Tr,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CgHashtag } from "react-icons/cg";
 import { CiDroplet } from "react-icons/ci";
 import { BiTask } from "react-icons/bi";
 import { MdOutlineHeight } from "react-icons/md";
 import { TableLoading } from "./PractionerTable";
+import { FaTasks } from "react-icons/fa";
+import moment from "moment";
+import { NoDataTable } from "./PractitionerOverview";
 
 const dummyData = [
     {
@@ -35,7 +41,33 @@ const dummyData = [
 
 const PatientOverview = () => {
     const { isLoading, data, error } = useGetPatientProfileQuery(null);
-    console.log(data);
+
+    const {
+        data: tasksData,
+        isLoading: taskDataLoading,
+        isError,
+    } = useGetMedicalHistoryQuery(null);
+    const [tasks, setTasks] = useState<any>([]);
+
+    useEffect(() => {
+        if (!taskDataLoading && !isError && tasksData) {
+            const filterTasks = tasksData
+                ?.map((item: any) =>
+                    item.task?.map((task: any) => {
+                        return {
+                            ...task,
+                            practitioner: {
+                                firstName: item.practitionerId?.firstName,
+                                lastName: item.practitionerId?.lastName,
+                            },
+                        };
+                    })
+                )
+                ?.flat();
+            setTasks(filterTasks);
+        }
+    }, [taskDataLoading, tasksData]);
+
     return (
         <div className='flex flex-col lg:gap-10 gap-4'>
             {isLoading ? (
@@ -80,47 +112,69 @@ const PatientOverview = () => {
                 </h2>
 
                 <div className='w-full font-lato'>
-                    {isLoading ? (
+                    {taskDataLoading ? (
                         <TableLoading />
                     ) : (
                         <TableContainer>
                             <Table variant='simple'>
                                 <Thead>
-                                    <Tr className='bg-[#EFF9FF] font-semibold font-base'>
+                                    <Tr className='bg-[#EFF9FF] capitalize font-semibold text-base'>
                                         <Th></Th>
-                                        <Th>Name</Th>
-                                        <Th>Prescribed On</Th>
-                                        <Th>Prescribed By</Th>
-                                        <Th>Status</Th>
+                                        <Th className='text-center capitalize'>
+                                            Name
+                                        </Th>
+                                        <Th className='text-center capitalize'>
+                                            Prescribed On
+                                        </Th>
+                                        <Th className='text-center capitalize'>
+                                            Prescribed By
+                                        </Th>
+                                        {/* <Th>Status</Th> */}
                                     </Tr>
                                 </Thead>
-                                <Tbody className='text-[14px]'>
-                                    {dummyData.map((data, index) => (
-                                        <Tr key={index}>
-                                            <Td>
-                                                <Checkbox />
-                                            </Td>
-                                            <Td>{data.name}</Td>
-                                            <Td>{data.prescribedOn}</Td>
-                                            <Td>{data.prescribedBy}</Td>
-                                            <Td>
-                                                <span
-                                                    className={`p-2 w-[85px] text-center block border rounded-[4px] ${
-                                                        data.status ===
-                                                        "Completed"
-                                                            ? "border-green-500 text-green-500"
-                                                            : data.status ===
-                                                              "Pending"
-                                                            ? "border-[#F59E0B] text-[#F59E0B]"
-                                                            : "border-red-500 text-red-500"
-                                                    }`}
-                                                >
-                                                    {data.status}
-                                                </span>
-                                            </Td>
-                                        </Tr>
-                                    ))}
-                                </Tbody>
+                                {tasks?.length > 0 ? (
+                                    <>
+                                        {" "}
+                                        <Tbody className='text-[14px]'>
+                                            {tasks.map(
+                                                (task: any, index: number) => (
+                                                    <Tr key={index}>
+                                                        <Td>
+                                                            <Checkbox />
+                                                        </Td>
+                                                        <Td className='text-center'>
+                                                            {moment(
+                                                                task?.createdAt
+                                                            ).format(
+                                                                "DD/MM/YYYY"
+                                                            )}
+                                                        </Td>
+                                                        <Td className='text-center'>
+                                                            {task?.taskName}
+                                                        </Td>
+                                                        {/* <Th>{task?.description}</Th> */}
+                                                        <Td className='text-center'>
+                                                            {
+                                                                task
+                                                                    ?.practitioner
+                                                                    ?.firstName
+                                                            }{" "}
+                                                            {
+                                                                task
+                                                                    ?.practitioner
+                                                                    ?.lastName
+                                                            }
+                                                        </Td>
+                                                    </Tr>
+                                                )
+                                            )}
+                                        </Tbody>
+                                    </>
+                                ) : (
+                                    <div className='flex justify-center items-center h-[50%]'>
+                                        <NoDataTable />
+                                    </div>
+                                )}
                             </Table>
                         </TableContainer>
                     )}
