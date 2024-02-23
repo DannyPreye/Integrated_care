@@ -62,7 +62,13 @@ const PractionerTable: React.FC<PractionerTableProps> = ({ patients }) => {
                                         icon={<AiOutlineMore size={24} />}
                                     />
                                     <MenuList>
-                                        <MenuItem onClick={() => router}>
+                                        <MenuItem
+                                            onClick={() =>
+                                                router.push(
+                                                    `/dashboard/patients/${patient?.patientId}`
+                                                )
+                                            }
+                                        >
                                             View
                                         </MenuItem>
                                     </MenuList>

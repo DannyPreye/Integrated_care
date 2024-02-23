@@ -35,15 +35,13 @@ const PractitionerOverview: React.FC<Props> = ({ session }) => {
                     height={320}
                     className='-translate-y-[104px]'
                 />
-                <div className='flex  flex-col gap-3 items-center lg:text-left text-center lg:items-start justify-center  h-full capitalize'>
-                    <h1 className='text-lg lg:text-[36px] font-montserrat font-semibold text-black'>
+                <div className='flex  flex-col gap-3 items-center lg:text-left text-center lg:items-start justify-center  h-full '>
+                    <h1 className='text-lg lg:text-[36px] font-montserrat font-semibold text-black capitalize'>
                         Welcome{" "}
                         {`${session?.user?.firstName} ${session?.user?.lastName}`}
                     </h1>
                     <p className='font-lato font-normal text-base text-[#383838]'>
                         IntegratedCare provides you with all the data you need
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt.
                     </p>
                 </div>
             </section>
@@ -98,7 +96,13 @@ const PractitionerOverview: React.FC<Props> = ({ session }) => {
 
 export default PractitionerOverview;
 
-export const NoDataTable = () => {
+export const NoDataTable = ({
+    heading,
+    paragraph,
+}: {
+    heading?: string;
+    paragraph?: string;
+}) => {
     return (
         <div className='flex flex-col items-center text-center justify-center gap-2'>
             <Image
@@ -108,11 +112,12 @@ export const NoDataTable = () => {
                 height={140}
             />
             <p className='text-lg font-semibold  font-lato'>
-                You don&apos;t have any patient yet.
+                {heading || "You don't have any patient yet."}
             </p>
             <p className='font-lato  text-base text-[#515151]'>
-                Start by adding a patient or use the search button above to find
-                a patient
+                {paragraph ||
+                    `Start by adding a patient or use the search button above to find
+                a patient`}
             </p>
         </div>
     );

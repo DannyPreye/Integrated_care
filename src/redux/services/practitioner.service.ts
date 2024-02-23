@@ -65,7 +65,19 @@ export const practitionerApi = createApi({
                 method: "GET",
             }),
         }),
+        getPatientHistory: builder.query({
+            query: (id) => ({
+                url: `/medicalHistory/${id}`,
+                method: "GET",
+            }),
+        }),
     })
 });
 
-export const { useGetPractionerQuery, useUpdatePractionerMutation, useGetPatientQuery, useAddPatientMutation, useGetColleagueMutation, useGetPatientByIdMutation } = practitionerApi;
+export const { useGetPractionerQuery,
+    useUpdatePractionerMutation,
+    useGetPatientQuery,
+    useAddPatientMutation,
+    useGetColleagueMutation,
+    useGetPatientByIdMutation,
+    useGetPatientHistoryQuery } = practitionerApi;
