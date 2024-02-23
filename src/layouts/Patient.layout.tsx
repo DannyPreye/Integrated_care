@@ -181,7 +181,7 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, onClose }) => {
                         </p>
                     </div>
                     <section className='flex flex-col items-start justify-start w-full gap-5 py-3'>
-                        {practitionerDashboardLinks.map((item) => (
+                        {patientDashboardLinks.map((item) => (
                             <Link
                                 key={`${item.link}-${item.title}`}
                                 className={
