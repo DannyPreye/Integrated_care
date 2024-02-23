@@ -39,7 +39,7 @@ const Diagnosis: React.FC<DiagnosisProps> = ({ patientId }) => {
                     {data?.diagnosis?.map((item: any) => (
                         <div key={item?._id} className='flex flex-col  gap-2'>
                             <span className='text-base font-lato'>
-                                {item.description}
+                                {item?.description}
                             </span>
                             <span className='text-[12px] text-[#515151] font-lato'>
                                 since {moment(item?.createdAt).fromNow()}

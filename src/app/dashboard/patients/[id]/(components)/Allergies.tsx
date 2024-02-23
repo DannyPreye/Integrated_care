@@ -3,13 +3,14 @@ import { useGetPatientHistoryQuery } from "@/redux/services/practitioner.service
 import { Button, SkeletonText, useDisclosure } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
+import AddAllergiesModal from "./modals/AddAllergies";
 
 interface AllergiesProps {
     patientId: string;
 }
 
 const Allergies: React.FC<AllergiesProps> = ({ patientId }) => {
-    const { data, isLoading, isError } = useGetPatientHistoryQuery(patientId);
+    const { data, isLoading, refetch } = useGetPatientHistoryQuery(patientId);
     const { onClose, onOpen, isOpen } = useDisclosure();
 
     console.log(data?.allergies);
@@ -37,20 +38,20 @@ const Allergies: React.FC<AllergiesProps> = ({ patientId }) => {
 
                     {data?.allergies?.map((item: any) => (
                         <div
-                            key={item.allergen}
+                            key={item?.allergen}
                             className='flex items-center gap-2'
                         >
                             <span
                                 className={`w-[8px] h-[8px] rounded-full ${
-                                    item.severity === "severe"
+                                    item?.severity === "severe"
                                         ? "bg-red-500"
-                                        : item.severity === "moderate"
+                                        : item?.severity === "moderate"
                                         ? "bg-yellow-500"
                                         : "bg-green-500"
                                 }`}
                             ></span>{" "}
                             <span className='text-base font-lato'>
-                                {item.allergen}
+                                {item?.allergen}
                             </span>
                         </div>
                     ))}
@@ -65,6 +66,13 @@ const Allergies: React.FC<AllergiesProps> = ({ patientId }) => {
                     + Add Allergy{" "}
                 </Button>
             </div>
+
+            <AddAllergiesModal
+                patientId={patientId}
+                refetch={refetch}
+                isOpen={isOpen}
+                onClose={onClose}
+            />
         </div>
     );
 };

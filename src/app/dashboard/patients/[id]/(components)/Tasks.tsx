@@ -27,7 +27,7 @@ const Tasks: React.FC<TaskProps> = ({ patientId }) => {
         <div className='flex flex-col gap-8'>
             <div className='flex justify-between items-center'>
                 <h2 className='text-lg font-montserrat font-[500]'>
-                    Outstanding Tasks
+                    Outstanding Requests
                 </h2>
 
                 <Button
@@ -44,7 +44,7 @@ const Tasks: React.FC<TaskProps> = ({ patientId }) => {
                         <Thead className='text-[16px] leading-[24px] font-lato font-semibold'>
                             <Tr>
                                 <Th></Th>
-                                <Th>Task</Th>
+                                <Th>Request</Th>
                                 <Th>Prescribed On</Th>
                                 <Th>Prescribed By</Th>
                             </Tr>
@@ -52,7 +52,7 @@ const Tasks: React.FC<TaskProps> = ({ patientId }) => {
                         {data?.task?.length > 0 && !isFetching && (
                             <Tbody className='text-sm font-lato'>
                                 {data?.task?.map((task: any) => (
-                                    <Tr key={task._id}>
+                                    <Tr key={task?._id}>
                                         <Td>
                                             <Checkbox />
                                         </Td>
