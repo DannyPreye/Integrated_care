@@ -104,7 +104,7 @@ const Page: React.FC = () => {
                                                         <Badge
                                                             variant='subtle'
                                                             textTransform={
-                                                                "lower-case"
+                                                                "lowercase"
                                                             }
                                                             className='lower rounded-[8px] p-2'
                                                             colorScheme={
