@@ -104,7 +104,7 @@ const TaskModal: React.FC<Props> = ({
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={() => (isLoading ? null : onClose())}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
