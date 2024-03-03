@@ -16,12 +16,14 @@ import { useAddPatientAllergyMutation } from "@/redux/services/practitioner.serv
 import { useRouter } from "next/navigation";
 import InputField from "@/sharedComponents/InputField";
 import FadeLoader from "react-spinners/FadeLoader";
+import ModalLoader from "./ModalLoader";
 
 interface AddAllergiesModalProps {
     isOpen: boolean;
     onClose: () => void;
     refetch: () => void;
     patientId: string;
+    encounterId: string;
 }
 
 const AddAllergiesModal: React.FC<AddAllergiesModalProps> = ({
@@ -29,6 +31,7 @@ const AddAllergiesModal: React.FC<AddAllergiesModalProps> = ({
     onClose,
     refetch,
     patientId,
+    encounterId,
 }) => {
     const [addAllergies, { data, isLoading, isError, error }] =
         useAddPatientAllergyMutation();
@@ -49,6 +52,7 @@ const AddAllergiesModal: React.FC<AddAllergiesModalProps> = ({
             onSubmit: async (values) => {
                 const res: any = await addAllergies({
                     patientId,
+                    encounterId,
                     body: { ...values },
                 });
                 if (res?.error) {
@@ -147,21 +151,16 @@ const AddAllergiesModal: React.FC<AddAllergiesModalProps> = ({
         );
     };
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={() => (isLoading ? null : onClose)}>
             <ModalOverlay />
             <ModalContent>
                 <ModalCloseButton />
                 <ModalBody>
                     {isLoading ? (
-                        <div className='flex flex-col gap-4 items-center py-8'>
-                            <h2 className='font-montserrat text-[24px] leading-[32px] font-[600] text-center'>
-                                Add Allergies
-                            </h2>
-                            <p className='font-montserrat text-[16px] leading-[24px] font-[400] text-center'>
-                                Adding Allergy
-                            </p>
-                            <FadeLoader color='#00A6FB' />
-                        </div>
+                        <ModalLoader
+                            title='Add Allergies'
+                            description='Adding Allergy'
+                        />
                     ) : (
                         <AddAllergyForm />
                     )}
