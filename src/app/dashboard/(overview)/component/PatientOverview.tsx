@@ -24,21 +24,6 @@ import { FaTasks } from "react-icons/fa";
 import moment from "moment";
 import { NoDataTable } from "./PractitionerOverview";
 
-const dummyData = [
-    {
-        name: "Blood Test",
-        prescribedOn: Date.now(),
-        status: "Completed",
-        prescribedBy: "Dr. John Harrison",
-    },
-    {
-        name: "Scaling and polishing",
-        prescribedOn: Date.now(),
-        status: "Pending",
-        prescribedBy: "Dr. Ayobami Jonathan",
-    },
-];
-
 const PatientOverview = () => {
     const { isLoading, data, error } = useGetPatientProfileQuery(null);
 
@@ -46,8 +31,10 @@ const PatientOverview = () => {
         data: tasksData,
         isLoading: taskDataLoading,
         isError,
-    } = useGetMedicalHistoryQuery(null);
+    } = useGetMedicalHistoryQuery(data?.patientId);
     const [tasks, setTasks] = useState<any>([]);
+
+    console.log(tasksData);
 
     useEffect(() => {
         if (!taskDataLoading && !isError && tasksData) {
@@ -77,6 +64,7 @@ const PatientOverview = () => {
                             key={i}
                             height='150px'
                             width='265px'
+                            className='w-full lg:w-[265px]'
                             borderRadius='10px'
                         />
                     ))}
@@ -91,24 +79,24 @@ const PatientOverview = () => {
                     <PatientCard
                         icon={<CiDroplet size={30} />}
                         title='Blood Group'
-                        value={data?.bloodGroup}
+                        value={data?.bloodType}
                     />
-                    <PatientCard
+                    {/* <PatientCard
                         icon={<BiTask size={30} />}
                         title='Outstanding Requests'
                         value={tasks?.length}
-                    />
+                    /> */}
                     <PatientCard
                         icon={<MdOutlineHeight size={30} />}
-                        title='Height'
-                        value={data?.height}
+                        title='Genotype'
+                        value={data?.genotype}
                     />
                 </div>
             )}
 
             <div className='flex flex-col gap-4 lg:mt-[70px] mt-4'>
                 <h2 className='text-[#002549] text-[18px] font-montserrat leading-[24px] font-semibold'>
-                    Oustanding Requests
+                    Encounters
                 </h2>
 
                 <div className='w-full font-lato'>
@@ -132,9 +120,8 @@ const PatientOverview = () => {
                                         {/* <Th>Status</Th> */}
                                     </Tr>
                                 </Thead>
-                                {tasks?.length > 0 ? (
+                                {tasks?.length > 0 && (
                                     <>
-                                        {" "}
                                         <Tbody className='text-[14px]'>
                                             {tasks.map(
                                                 (task: any, index: number) => (
@@ -170,16 +157,17 @@ const PatientOverview = () => {
                                             )}
                                         </Tbody>
                                     </>
-                                ) : (
-                                    <div className='flex justify-center items-center h-[50%]'>
-                                        <NoDataTable
-                                            heading='You don’t have any  requests yet.'
-                                            paragraph='All your requests will appear here'
-                                        />
-                                    </div>
                                 )}
                             </Table>
                         </TableContainer>
+                    )}
+                    {!taskDataLoading && tasks?.length < 1 && (
+                        <div className='flex justify-center items-center mt-5 h-[50%]'>
+                            <NoDataTable
+                                heading='You don’t have any  requests yet.'
+                                paragraph='All your requests will appear here'
+                            />
+                        </div>
                     )}
                 </div>
             </div>
