@@ -98,7 +98,7 @@ export const practitionerApi = createApi({
         }),
         addPatientInfo: builder.mutation({
             query: (payload) => ({
-                url: `/updateBloodData/${payload.encounterId}`,
+                url: `/updateBloodData/${payload.patientId}`,
                 method: "PATCH",
                 body: payload.body
             }),

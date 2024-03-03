@@ -102,7 +102,7 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={() => (isLoading ? null : onClose())}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>

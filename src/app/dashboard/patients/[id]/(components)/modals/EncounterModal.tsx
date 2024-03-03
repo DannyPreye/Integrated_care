@@ -33,7 +33,7 @@ const EncounterModal: React.FC<EncounterModalProps> = ({
     onClose,
     refetch,
 }) => {
-    const [addEncounter] = useAddPatientEncounterMutation();
+    const [addEncounter, { isLoading }] = useAddPatientEncounterMutation();
     const toast = useToast();
 
     const validationSchema = Yup.object({
@@ -151,7 +151,7 @@ const EncounterModal: React.FC<EncounterModalProps> = ({
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={() => (isLoading ? null : onClose())}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>

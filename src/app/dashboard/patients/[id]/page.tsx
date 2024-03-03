@@ -16,18 +16,6 @@ interface Props {
 
 const page: React.FC<Props> = async ({ params }) => {
     const { id } = params;
-    const session = await serverSession();
-
-    const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/practitioner/getPatient?patientId=${id}`,
-        {
-            headers: {
-                Authorization: `Bearer ${session?.token}`,
-            },
-        }
-    );
-
-    console.log(data);
 
     return (
         <div className='flex flex-col lg:flex-row gap-4 w-full'>

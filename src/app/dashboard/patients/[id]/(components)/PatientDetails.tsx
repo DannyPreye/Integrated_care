@@ -19,6 +19,7 @@ const PatientDetails: React.FC<Props> = ({ id }) => {
     const { data, isLoading, isFetching, isError, refetch } =
         useGetPatientByIdQuery(id);
     const { isOpen, onOpen, onClose } = useDisclosure();
+
     return (
         <div>
             <div className='flex flex-col gap-3 items-center'>

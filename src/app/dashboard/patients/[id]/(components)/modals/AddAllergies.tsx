@@ -71,8 +71,6 @@ const AddAllergiesModal: React.FC<AddAllergiesModalProps> = ({
             validationSchema,
         });
 
-        const router = useRouter();
-
         return (
             <form
                 className='flex flex-col gap-4 items-center py-8'
@@ -151,7 +149,7 @@ const AddAllergiesModal: React.FC<AddAllergiesModalProps> = ({
         );
     };
     return (
-        <Modal isOpen={isOpen} onClose={() => (isLoading ? null : onClose)}>
+        <Modal isOpen={isOpen} onClose={() => (isLoading ? null : onClose())}>
             <ModalOverlay />
             <ModalContent>
                 <ModalCloseButton />

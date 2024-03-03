@@ -137,11 +137,11 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={() => (isLoading ? null : onClose)}>
+        <Modal isOpen={isOpen} onClose={() => (isLoading ? null : onClose())}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
-                    Add Medication
+                    {isLoading ? "" : "Add Medication"}
                     <ModalCloseButton />
                 </ModalHeader>
                 <ModalBody>
