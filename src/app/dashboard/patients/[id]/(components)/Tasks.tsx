@@ -30,6 +30,8 @@ const Tasks: React.FC<TaskProps> = ({ patientId, encounterId }) => {
         useGetEncounterDetailsQuery(encounterId);
     const { onOpen, isOpen, onClose } = useDisclosure();
 
+    console.log(data);
+
     return (
         <div className='flex flex-col gap-8'>
             <div className='flex justify-between items-center'>
@@ -70,7 +72,10 @@ const Tasks: React.FC<TaskProps> = ({ patientId, encounterId }) => {
                                                 "DD MMM, YYYY"
                                             )}
                                         </Td>
-                                        <Td></Td>
+                                        <Td>
+                                            {task?.practitioner?.firstName}{" "}
+                                            {task?.practitioner?.lastName}
+                                        </Td>
                                     </Tr>
                                 ))}
                             </Tbody>
