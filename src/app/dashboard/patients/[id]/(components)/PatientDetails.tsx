@@ -20,6 +20,8 @@ const PatientDetails: React.FC<Props> = ({ id }) => {
         useGetPatientByIdQuery(id);
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    console.log(data);
+
     return (
         <div>
             <div className='flex flex-col gap-3 items-center'>
@@ -55,10 +57,9 @@ const PatientDetails: React.FC<Props> = ({ id }) => {
                         <p className='font-semibold'>{data?.age}</p>
                         <p className='text-base'>Blood Type:</p>
                         <p className='font-semibold'>{data?.bloodType}</p>
-                        <p className='text-base'>Weight:</p>
-                        <p className='font-semibold'>{data?.weight}</p>
-                        <p className='text-base'>Height:</p>
-                        <p className='font-semibold'>{data?.height}</p>
+                        <p className='text-base'>Genotype:</p>
+                        <p className='font-semibold'>{data?.genotype}</p>
+
                         <p className='text-base'>Patient ID:</p>
                         <p className='font-semibold'>{data?.patientId}</p>
                         <p className='text-base'>Last Visit:</p>

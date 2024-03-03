@@ -113,7 +113,7 @@ const AddPatientModal: React.FC<Props> = ({ isOpen, onClose, refetch }) => {
     const PatientDetails = () => {
         const handleAddPatient = async () => {
             if (addPatientData) {
-                router.push(`/dashboard/patients/${addPatientData.patientId}`);
+                router.push(`/dashboard/patients/${data?.patientId}`);
             } else {
                 const res: any = await addPatient(data?.patientId);
                 if (res?.error) {

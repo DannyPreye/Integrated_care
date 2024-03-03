@@ -15,6 +15,7 @@ import {
 import { useRouter } from "next/navigation";
 import React from "react";
 import EncounterModal from "./modals/EncounterModal";
+import moment from "moment";
 
 interface Props {
     patientId: string;
@@ -68,7 +69,11 @@ const Encounters: React.FC<Props> = ({ patientId }) => {
                                     >
                                         <Td>{encounter?.reasonForVisit}</Td>
                                         <Td>{encounter?.location}</Td>
-                                        <Td>{encounter?.date}</Td>
+                                        <Td>
+                                            {moment(
+                                                encounter?.createdAt
+                                            ).format("ll")}
+                                        </Td>
                                         <Td>
                                             {encounter?.practitioner?.firstName}{" "}
                                             {encounter?.practitioner?.lastName}
