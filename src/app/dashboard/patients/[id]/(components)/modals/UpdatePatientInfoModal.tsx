@@ -8,6 +8,7 @@ import {
     ModalHeader,
     ModalOverlay,
     Select,
+    useToast,
 } from "@chakra-ui/react";
 import React, { use } from "react";
 import { useFormik } from "formik";
@@ -27,8 +28,12 @@ const UpdatePatientInfoModal: React.FC<Props> = ({
     onClose,
     refetch,
     encounterId,
+    patientId,
 }) => {
-    const [addPatientInfo] = useAddPatientInfoMutation();
+    const [addPatientInfo, { isLoading }] = useAddPatientInfoMutation();
+    const toast = useToast();
+
+    console.log(patientId);
 
     const validationSchema = Yup.object({
         gender: Yup.string().required("Gender is required"),
@@ -44,7 +49,33 @@ const UpdatePatientInfoModal: React.FC<Props> = ({
             bloodType: "",
             genotype: "",
         },
-        onSubmit: async (values) => {},
+        onSubmit: async (values) => {
+            const res: any = await addPatientInfo({
+                patientId,
+                body: values,
+            });
+            if (res.error) {
+                return toast({
+                    title: "Error",
+                    description: res.error.data.message,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                });
+            }
+
+            if (res.data) {
+                toast({
+                    title: "Success",
+                    description: res.data.message,
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                });
+                onClose();
+                refetch();
+            }
+        },
         validationSchema,
     });
 
