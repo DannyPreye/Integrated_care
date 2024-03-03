@@ -1,6 +1,9 @@
 "use client";
 import { TableLoading } from "@/app/dashboard/(overview)/component/PractionerTable";
-import { useGetPatientHistoryQuery } from "@/redux/services/practitioner.service";
+import {
+    useGetEncounterDetailsQuery,
+    useGetPatientHistoryQuery,
+} from "@/redux/services/practitioner.service";
 import {
     Button,
     Checkbox,
@@ -11,17 +14,21 @@ import {
     Th,
     Thead,
     Tr,
+    useDisclosure,
 } from "@chakra-ui/react";
 import moment from "moment";
 import Link from "next/link";
 import React from "react";
+import TaskModal from "./modals/TaskModal";
+
 interface TaskProps {
     patientId: string;
+    encounterId: string;
 }
-const Tasks: React.FC<TaskProps> = ({ patientId }) => {
-    const { data, isFetching, isError } = useGetPatientHistoryQuery(patientId);
-
-    console.log(data);
+const Tasks: React.FC<TaskProps> = ({ patientId, encounterId }) => {
+    const { data, isFetching, isError, refetch } =
+        useGetEncounterDetailsQuery(encounterId);
+    const { onOpen, isOpen, onClose } = useDisclosure();
 
     return (
         <div className='flex flex-col gap-8'>
@@ -31,7 +38,7 @@ const Tasks: React.FC<TaskProps> = ({ patientId }) => {
                 </h2>
 
                 <Button
-                    // onClick={onOpen}
+                    onClick={onOpen}
                     variant='ghost'
                     className='text-primary  text-[12px] leading-[20px] font-lato font-semibold'
                 >
@@ -41,17 +48,17 @@ const Tasks: React.FC<TaskProps> = ({ patientId }) => {
             <div>
                 <TableContainer>
                     <Table>
-                        <Thead className='text-[16px] leading-[24px] font-lato font-semibold'>
+                        <Thead className='text-[16px] leading-[24px]  font-lato font-semibold'>
                             <Tr>
-                                <Th></Th>
-                                <Th>Request</Th>
-                                <Th>Prescribed On</Th>
-                                <Th>Prescribed By</Th>
+                                <Th className='capitalize'></Th>
+                                <Th className='capitalize'>Request</Th>
+                                <Th className='capitalize'>Prescribed On</Th>
+                                <Th className='capitalize'>Prescribed By</Th>
                             </Tr>
                         </Thead>
-                        {data?.task?.length > 0 && !isFetching && (
+                        {data?.tasks?.length > 0 && !isFetching && (
                             <Tbody className='text-sm font-lato'>
-                                {data?.task?.map((task: any) => (
+                                {data?.tasks?.map((task: any) => (
                                     <Tr key={task?._id}>
                                         <Td>
                                             <Checkbox />
@@ -73,6 +80,14 @@ const Tasks: React.FC<TaskProps> = ({ patientId }) => {
 
                 {isFetching && <TableLoading numberOfColumns={3} />}
             </div>
+
+            <TaskModal
+                isOpen={isOpen}
+                onClose={onClose}
+                refetch={refetch}
+                patientId={patientId}
+                encounterId={encounterId}
+            />
         </div>
     );
 };

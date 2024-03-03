@@ -51,7 +51,10 @@ const InputField: React.FC<Props> = ({
     const handleShow = () => setShow(!show);
     return (
         <div className={`relative w-full text-left ${className}`}>
-            <label htmlFor={id} className='text-base font-semibold leading-6'>
+            <label
+                htmlFor={id}
+                className={`text-base font-semibold leading-6 ${labelClassName}`}
+            >
                 {label}
             </label>
             <InputGroup className='focus:border-[#383838]'>

@@ -31,7 +31,7 @@ const Page: React.FC = () => {
                 </Button>
             </div>
 
-            <div className='w-full h-[344px] border border-[#CDCDCD] rounded-lg '>
+            <div className='w-full h-[344px] border border-[#CDCDCD] rounded-lg p-4 lg:p-5'>
                 {isLoading ? (
                     <TableLoading />
                 ) : (

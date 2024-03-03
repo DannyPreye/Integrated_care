@@ -1,8 +1,8 @@
 "use client";
 import {
     useAddPatientMutation,
-    useGetPatientByIdMutation,
-    useGetPatientQuery,
+    useGetPatientByIdFromFormMutation,
+    useGetPatientByIdQuery,
 } from "@/redux/services/practitioner.service";
 import InputField from "@/sharedComponents/InputField";
 import {
@@ -30,7 +30,7 @@ interface Props {
 
 const AddPatientModal: React.FC<Props> = ({ isOpen, onClose, refetch }) => {
     const [getPatient, { data, isLoading, isError }] =
-        useGetPatientByIdMutation();
+        useGetPatientByIdFromFormMutation();
     const [currentView, setCurrentView] = useState(0);
     const [
         addPatient,
@@ -102,7 +102,7 @@ const AddPatientModal: React.FC<Props> = ({ isOpen, onClose, refetch }) => {
                     isLoading={formik.isSubmitting}
                     disabled={!formik.values.patientId}
                     type='submit'
-                    className='w-full bg-primary disabled:bg-[#B6E5FF] h-[40px] rounded-[8px] max-w-[140px]'
+                    className='w-full text-white bg-primary disabled:bg-[#B6E5FF] h-[40px] rounded-[8px] max-w-[140px]'
                 >
                     Enter
                 </Button>

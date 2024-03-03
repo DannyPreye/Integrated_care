@@ -7,6 +7,7 @@ import React from "react";
 import Calendar from "react-calendar";
 import PractionerTable, { TableLoading } from "./PractionerTable";
 import AddPatientModal from "./AddPatientModal";
+import { useRouter } from "next/navigation";
 
 interface Props {
     session: Session;
@@ -14,8 +15,7 @@ interface Props {
 const PractitionerOverview: React.FC<Props> = ({ session }) => {
     const { data, isLoading, refetch } = useGetPractionerQuery(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
-
-    console.log(data);
+    const router = useRouter();
 
     return (
         <section className='flex flex-col items-end justify-start w-full px-6 py-8 gap-14'>
@@ -51,11 +51,14 @@ const PractitionerOverview: React.FC<Props> = ({ session }) => {
                         <p className='text-xl font-semibold leading-7 font-montserrat'>
                             Recent Patients
                         </p>
-                        <button className='text-sm bg-transparent text-primary disabled:text-blue-300'>
+                        <button
+                            onClick={() => router.push("/dashboard/patients")}
+                            className='text-sm bg-transparent text-primary disabled:text-blue-300'
+                        >
                             View all
                         </button>
                     </div>
-                    <section className='w-full h-[344px] border border-[#CDCDCD] rounded-lg '>
+                    <section className='w-full h-[344px] border border-[#CDCDCD] rounded-lg p-5 '>
                         {/* display for when no patients. remember to set the conditions */}
                         {isLoading ? (
                             <TableLoading />
