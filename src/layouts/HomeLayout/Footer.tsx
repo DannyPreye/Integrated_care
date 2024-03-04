@@ -4,30 +4,38 @@ import React from "react";
 
 const Footer = () => {
     return (
-        <footer className='flex flex-col items-start justify-start w-full gap-10 px-12 pb-8 text-white bg-secondary pt-28 font-poppins'>
-            <p className='text-2xl font-bold'>
+        <footer className='flex flex-col items-center lg:items-start justify-start w-full gap-10 px-4 lg:px-12 pb-8 text-white bg-secondary pt-8 lg:pt-28 font-poppins'>
+            <p className='text-xl lg:text-2xl lg:text-left text-center font-bold'>
                 Integrated<span className='text-primary'>Care</span>{" "}
-                <span className='text-lg font-medium leading-7 font-lato'>
+                <span className=' lg:text-lg font-medium lg:leading-7 font-lato'>
                     provides a centralized repository for all patient
                     information.
                 </span>
             </p>
-            <section className='flex justify-start items-start gap-[190px] font-lato border-b border-b-black pb-12'>
+            <section className='flex flex-col lg:flex-row  justify-start items-start gap-6 lg:gap-[190px] font-lato border-b border-b-black pb-12'>
                 <div className='flex flex-col items-start justify-start gap-4'>
-                    <p className='text-2xl font-semibold'>Company</p>
-                    <p className='text-lg font-medium'>About us</p>
-                    <p className='text-lg font-medium'>Our Services</p>
-                    <p className='text-lg font-medium'>FAQs</p>
+                    <p className='text-xl lg:text-2xl font-semibold'>Company</p>
+                    <p className='text-base lg:text-lg font-medium'>About us</p>
+                    <p className='text-base lg:text-lg font-medium'>
+                        Our Services
+                    </p>
+                    <p className='text-base lg:text-lg font-medium'>FAQs</p>
                 </div>
                 <div className='flex flex-col items-start justify-start gap-4'>
-                    <p className='text-2xl font-semibold'>Products</p>
-                    <p className='text-lg font-medium'>Features</p>
-                    <p className='text-lg font-medium'>Mobile App</p>
+                    <p className='text-xl lg:text-2xl font-semibold'>
+                        Products
+                    </p>
+                    <p className='text-base lg:text-lg font-medium'>Features</p>
+                    <p className='text-base lg:text-lg font-medium'>
+                        Mobile App
+                    </p>
                 </div>
                 <div className='flex flex-col items-start justify-start gap-4'>
-                    <p className='text-2xl font-semibold'>Legal</p>
-                    <p className='text-lg font-medium'>Legal</p>
-                    <p className='text-lg font-medium'>Terms of service</p>
+                    <p className='text-xl lg:text-2xl font-semibold'>Legal</p>
+                    <p className='text-base lg:text-lg font-medium'>Legal</p>
+                    <p className='text-base lg:text-lg font-medium'>
+                        Terms of service
+                    </p>
                 </div>
                 <div className='w-[320px] flex flex-col justify-start items-center gap-6'>
                     <p>
@@ -72,11 +80,11 @@ const Footer = () => {
                     </button>
                 </div>
             </section>
-            <section className='flex items-center justify-center w-full gap-7'>
+            <section className='flex lg:flex-row flex-col items-center justify-center w-full gap-7'>
                 <p className='text-base font-semibold capitalize font-lato'>
                     IntegratedCare 2024 all right reserved
                 </p>
-                <div className='flex items-center justify-start gap-8'>
+                <div className='flex lg:flex-row flex-col items-center justify-start gap-8'>
                     {socialLinks.map(({ name, icon, url }) => (
                         <Link key={`footer-${name}`} target='_blank' href={url}>
                             {name}

@@ -1,11 +1,22 @@
 "use client";
 import { IPage } from "@/app/types/Ipage";
 import { socialLinks } from "@/constants/navsAndLinks.constant";
+import {
+    Drawer,
+    DrawerBody,
+    DrawerCloseButton,
+    DrawerContent,
+    DrawerHeader,
+    DrawerOverlay,
+    IconButton,
+    useDisclosure,
+} from "@chakra-ui/react";
 import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import { CgMenu } from "react-icons/cg";
 
 interface Props {
     session: Session | null;
@@ -38,6 +49,8 @@ const Header: React.FC<Props> = ({ session }) => {
     const pathname = usePathname();
     const router = useRouter();
 
+    const { isOpen, onClose, onOpen } = useDisclosure();
+
     return (
         <>
             <header className='flex flex-col items-start justify-start w-full bg-secondary font-montserrat'>
@@ -67,7 +80,7 @@ const Header: React.FC<Props> = ({ session }) => {
                             </svg>
                             <p>integratedcare@gmail.com</p>
                         </div>
-                        <div className='flex items-center justify-start gap-2'>
+                        <div className='hidden lg:flex items-center justify-start gap-2'>
                             <svg
                                 className='w-5 h-5 text-gray-800 dark:text-[#cfcece]'
                                 aria-hidden='true'
@@ -98,61 +111,16 @@ const Header: React.FC<Props> = ({ session }) => {
                                 />
                             </Link>
                         ))}
-                        {/* <Link href='https://www.facebook.com' target='_blank'>
-                          <img
-                              src={facebook}
-                              alt='facebook'
-                              width={16}
-                              height={16}
-                              className='cursor-pointer'
-                          />
-                      </Link>
-                      <Link href='https://www.twitter.com' target='_blank'>
-                          <img
-                              src={twitter}
-                              alt='twitter'
-                              width={16}
-                              height={16}
-                              className='cursor-pointer'
-                          />
-                      </Link>
-                      <a href='https://www.youtube.com' target='_blank'>
-                          <img
-                              src={youtube}
-                              alt='youtube'
-                              width={16}
-                              height={16}
-                              className='cursor-pointer'
-                          />
-                      </a>
-                      <a href='https://www.linkedin.com' target='_blank'>
-                          <img
-                              src={linkedin}
-                              alt='linkedin'
-                              width={16}
-                              height={16}
-                              className='cursor-pointer'
-                          />
-                      </a>
-                      <a href='https://www.instagram.com' target='_blank'>
-                          <img
-                              src={instagram}
-                              alt='instagram'
-                              width={16}
-                              height={16}
-                              className='cursor-pointer'
-                          />
-                      </a> */}
                     </div>
                 </section>
                 <nav className='flex items-center justify-between w-full px-3 py-4 bg-white'>
                     <div>
-                        <p className='text-3xl font-semibold leading-10'>
+                        <p className='text-xl  md:text-2xl lg:text-3xl font-semibold leading-10'>
                             Integrated
                             <span className='text-[#00A6FB]'>Care</span>
                         </p>
                     </div>
-                    <div className='flex items-center justify-center gap-6 text-base font-medium font-lato'>
+                    <div className='hidden lg:flex items-center justify-center gap-6 text-base font-medium font-lato'>
                         {navlinks?.map(({ name, url }) => (
                             <Link
                                 href={url}
@@ -166,35 +134,16 @@ const Header: React.FC<Props> = ({ session }) => {
                                 {name}
                             </Link>
                         ))}
-
-                        {/* <NavLink
-                            to={"/"}
-                            className={({ isActive }) =>
-                                isActive
-                                    ? "text-primary border-b-2 border-b-primary"
-                                    : "text-black"
-                            }
-                        >
-                            Home
-                        </NavLink>
-                        <a href='#about-us' className='text-black'>
-                            About Us
-                        </a>
-                        <a href='#offer' className='text-black'>
-                            Our Offer
-                        </a>
-                        <NavLink
-                            to={"/contact-us"}
-                            className={({ isActive }) =>
-                                isActive
-                                    ? "text-primary border-b-2 border-b-primary"
-                                    : "text-black"
-                            }
-                        >
-                            Contact Us
-                        </NavLink> */}
                     </div>
-                    <div className='flex items-center justify-start gap-3'>
+                    <div className='lg:hidden'>
+                        <IconButton
+                            aria-label='menu-button'
+                            icon={<CgMenu />}
+                            onClick={onOpen}
+                            className='lg:hidden'
+                        />
+                    </div>
+                    <div className='hidden lg:flex items-center justify-start gap-3'>
                         {session ? (
                             <button
                                 className='flex items-center justify-center gap-2 px-4 py-2 text-sm text-white border rounded-lg bg-primary'
@@ -223,8 +172,89 @@ const Header: React.FC<Props> = ({ session }) => {
                     </div>
                 </nav>
             </header>
+            <MobileMenu
+                session={session}
+                pathname={pathname}
+                isOpen={isOpen}
+                onClose={onClose}
+            />
         </>
     );
 };
 
 export default Header;
+
+interface MobileMenuProps {
+    isOpen: boolean;
+    onClose: () => void;
+    pathname: string;
+    session: Session | null;
+}
+const MobileMenu: React.FC<MobileMenuProps> = ({
+    isOpen,
+    onClose,
+    pathname,
+    session,
+}) => {
+    const router = useRouter();
+    return (
+        <Drawer isOpen={isOpen} placement='left' onClose={onClose}>
+            <DrawerOverlay />
+            <DrawerContent>
+                <DrawerHeader>
+                    <div>
+                        <p className='text-xl  md:text-2xl lg:text-3xl font-semibold leading-10'>
+                            Integrated
+                            <span className='text-[#00A6FB]'>Care</span>
+                        </p>
+                    </div>
+                    <DrawerCloseButton />
+                </DrawerHeader>
+                <DrawerBody>
+                    <div className='flex flex-col  justify-center gap-6 text-base font-medium font-lato'>
+                        {navlinks?.map(({ name, url }) => (
+                            <Link
+                                href={url}
+                                key={name}
+                                className={`${
+                                    pathname === url
+                                        ? "text-primary border-b-2 border-b-primary"
+                                        : "text-black"
+                                }`}
+                            >
+                                {name}
+                            </Link>
+                        ))}
+                    </div>
+                    <div className='flex flex-col mt-4 justify-start gap-3'>
+                        {session ? (
+                            <button
+                                className='flex  justify-center gap-2 px-4 py-2 text-sm text-white border rounded-lg bg-primary'
+                                onClick={() => router.push(`/dashboard`)}
+                            >
+                                Dashboard
+                            </button>
+                        ) : (
+                            <>
+                                <button
+                                    className='flex items-center justify-center gap-2 px-4 py-2 text-sm border rounded-lg text-primary border-primary'
+                                    onClick={() => router.push("/auth/sign-in")}
+                                >
+                                    Login
+                                </button>
+                                <button
+                                    className='flex items-center justify-center gap-2 px-4 py-2 text-sm text-white border rounded-lg bg-primary'
+                                    onClick={() =>
+                                        router.push("/auth/selection")
+                                    }
+                                >
+                                    Register
+                                </button>
+                            </>
+                        )}
+                    </div>
+                </DrawerBody>
+            </DrawerContent>
+        </Drawer>
+    );
+};
