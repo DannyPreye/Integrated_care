@@ -16,7 +16,7 @@ const page: React.FC = () => {
                     data-aos-duration='1000'
                     className='text-xl md:text-2xl lg:text-[44px] font-bold mb-4'
                 >
-                    SImplified Patient Data for Improved{" "}
+                    Integrated Patient Data for Improved{" "}
                     <span className='text-primary'>Healthcare</span>
                 </p>
                 <p
