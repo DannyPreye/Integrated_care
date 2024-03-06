@@ -1,6 +1,7 @@
 "use client";
 import {
     useGetEncounterDetailsQuery,
+    useGetPatientAllergyQuery,
     useGetPatientHistoryQuery,
 } from "@/redux/services/practitioner.service";
 import { Button, SkeletonText, useDisclosure } from "@chakra-ui/react";
@@ -15,8 +16,10 @@ interface AllergiesProps {
 
 const Allergies: React.FC<AllergiesProps> = ({ patientId, encounterId }) => {
     const { data, isLoading, refetch, isFetching } =
-        useGetEncounterDetailsQuery(encounterId);
+        useGetPatientAllergyQuery(encounterId);
     const { onClose, onOpen, isOpen } = useDisclosure();
+
+    console.log(data);
 
     return (
         <div className='flex-col flex gap-5'>
@@ -46,7 +49,7 @@ const Allergies: React.FC<AllergiesProps> = ({ patientId, encounterId }) => {
 
                     {!isFetching && !isLoading && (
                         <>
-                            {data?.allergies?.map((item: any) => (
+                            {data?.map((item: any) => (
                                 <div
                                     key={item?.allergen}
                                     className='flex items-center gap-2'

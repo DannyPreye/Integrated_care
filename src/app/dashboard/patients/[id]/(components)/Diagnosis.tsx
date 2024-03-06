@@ -1,6 +1,7 @@
 "use client";
 import {
     useGetEncounterDetailsQuery,
+    useGetPatientDiagnosisQuery,
     useGetPatientHistoryQuery,
 } from "@/redux/services/practitioner.service";
 import { Button, SkeletonText, useDisclosure } from "@chakra-ui/react";
@@ -16,7 +17,7 @@ interface DiagnosisProps {
 
 const Diagnosis: React.FC<DiagnosisProps> = ({ patientId, encounterId }) => {
     const { data, isLoading, isError, refetch, isFetching } =
-        useGetEncounterDetailsQuery(encounterId);
+        useGetPatientDiagnosisQuery(encounterId);
     const { onClose, onOpen, isOpen } = useDisclosure();
 
     console.log(data);
@@ -49,7 +50,7 @@ const Diagnosis: React.FC<DiagnosisProps> = ({ patientId, encounterId }) => {
 
                     {!isLoading && !isFetching && (
                         <>
-                            {data?.diagnosis?.map((item: any) => (
+                            {data?.map((item: any) => (
                                 <div
                                     key={item?._id}
                                     className='flex flex-col  gap-2'

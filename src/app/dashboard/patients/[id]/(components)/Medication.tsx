@@ -2,6 +2,7 @@
 import {
     useGetEncounterDetailsQuery,
     useGetPatientHistoryQuery,
+    useGetPatientMedicationQuery,
 } from "@/redux/services/practitioner.service";
 import { Button, useDisclosure } from "@chakra-ui/react";
 import React from "react";
@@ -15,7 +16,7 @@ interface Props {
 
 const Medication: React.FC<Props> = ({ patientId, encounterId }) => {
     const { data, isFetching, isError, refetch } =
-        useGetEncounterDetailsQuery(encounterId);
+        useGetPatientMedicationQuery(encounterId);
     const { onOpen, isOpen, onClose } = useDisclosure();
 
     console.log(data);
@@ -40,21 +41,19 @@ const Medication: React.FC<Props> = ({ patientId, encounterId }) => {
                     <></>
                 ) : (
                     <div className='flex flex-col gap-[15px]'>
-                        {data?.medications?.map(
-                            (medication: any, index: number) => (
-                                <div
-                                    key={index}
-                                    className='flex items-center justify-between py-[12px]'
-                                >
-                                    <div className='flex-1 flex items-center '>
-                                        <MdOutlineMedication size={28} />
-                                        <span className='ml-[10px] font-lato  text-[16px] leading-[24px] '>
-                                            {medication?.drugName}
-                                        </span>
-                                    </div>
+                        {data?.map((medication: any, index: number) => (
+                            <div
+                                key={index}
+                                className='flex items-center justify-between py-[12px]'
+                            >
+                                <div className='flex-1 flex items-center '>
+                                    <MdOutlineMedication size={28} />
+                                    <span className='ml-[10px] font-lato  text-[16px] leading-[24px] '>
+                                        {medication?.drugName}
+                                    </span>
                                 </div>
-                            )
-                        )}
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
