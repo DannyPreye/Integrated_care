@@ -69,6 +69,33 @@ export const practitionerApi = createApi({
                 method: "GET",
             }),
         }),
+        getPatientMedication: builder.query({
+            query: (encounterId) => ({
+                url: `/getMedications/${encounterId}`,
+                method: "GET"
+            })
+        }),
+        getPatientAllergy: builder.query({
+            query: (encounterId) => ({
+                url: `/getAllergies/${encounterId}`,
+                method: "GET"
+
+            })
+        }),
+        getPatientRequests: builder.query({
+            query: (encounterId) => ({
+                url: `/getTasks/${encounterId}`,
+                method: "GET"
+
+            })
+        }),
+        getPatientDiagnosis: builder.query({
+            query: (encounterId) => ({
+                url: `/getDiagnosis/${encounterId}`,
+                method: "GET"
+
+            })
+        }),
         getColleague: builder.mutation({
             query: (email) => ({
                 url: `/getPractitioner?email=${email}`,
@@ -128,6 +155,7 @@ export const practitionerApi = createApi({
 
 
 
+
     })
 });
 
@@ -146,5 +174,9 @@ export const { useGetPractionerQuery,
     useAddDiagnosisMutation,
     useAddRequestsMutation,
     useGetPatientByIdFromFormMutation,
-    useAddMedicationMutation
+    useAddMedicationMutation,
+    useGetPatientAllergyQuery,
+    useGetPatientMedicationQuery,
+    useGetPatientDiagnosisQuery,
+    useGetPatientRequestsQuery
 } = practitionerApi;

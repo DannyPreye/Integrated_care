@@ -3,6 +3,7 @@ import { TableLoading } from "@/app/dashboard/(overview)/component/PractionerTab
 import {
     useGetEncounterDetailsQuery,
     useGetPatientHistoryQuery,
+    useGetPatientRequestsQuery,
 } from "@/redux/services/practitioner.service";
 import {
     Button,
@@ -27,7 +28,7 @@ interface TaskProps {
 }
 const Tasks: React.FC<TaskProps> = ({ patientId, encounterId }) => {
     const { data, isFetching, isError, refetch } =
-        useGetEncounterDetailsQuery(encounterId);
+        useGetPatientRequestsQuery(encounterId);
     const { onOpen, isOpen, onClose } = useDisclosure();
 
     console.log(data);
@@ -58,9 +59,9 @@ const Tasks: React.FC<TaskProps> = ({ patientId, encounterId }) => {
                                 <Th className='capitalize'>Prescribed By</Th>
                             </Tr>
                         </Thead>
-                        {data?.tasks?.length > 0 && !isFetching && (
+                        {data?.length > 0 && !isFetching && (
                             <Tbody className='text-sm font-lato'>
-                                {data?.tasks?.map((task: any) => (
+                                {data?.map((task: any) => (
                                     <Tr key={task?._id}>
                                         <Td>
                                             <Checkbox />

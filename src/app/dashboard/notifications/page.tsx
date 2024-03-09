@@ -1,7 +1,11 @@
 import React from "react";
 
 const page = () => {
-    return <div className='border rounded-md min-h-screen'>page</div>;
+    return (
+        <div className="flex flex-col">
+            <div className='border rounded-md min-h-screen'></div>
+        </div>
+    );
 };
 
 export default page;
